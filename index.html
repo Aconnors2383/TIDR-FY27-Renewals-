@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>XDR, ETD &amp; Secure Endpoint Renewal Status · TIDR FY27</title>
+    <link rel="stylesheet" href="css/report.css" />
+  </head>
+  <body>
+    <div class="banner">
+      Replica of the Foundry <strong>De-Risk 2026 Secure Access Renewal Status</strong> report,
+      recast for XDR, ETD, and Secure Endpoint. Live book data lives on
+      <code>foundry.ai.ciscolabs.com</code>, which this environment could not reach. Figures
+      below are a labeled sample book until you import a CSV export.
+    </div>
+    <header class="header">
+      <div>
+        <p class="kicker">Cisco Security · TIDR FY27 · Reports / security / derisk-2026</p>
+        <h1>XDR, ETD &amp; Secure Endpoint Renewal Status</h1>
+      </div>
+      <div class="meta">
+        <div>As of <strong id="as-of">—</strong></div>
+        <div id="source-label">Sample book</div>
+      </div>
+    </header>
+    <nav class="tabs" aria-label="Product">
+      <button type="button" class="active" data-product="All">All three offers</button>
+      <button type="button" data-product="XDR">XDR</button>
+      <button type="button" data-product="ETD">ETD</button>
+      <button type="button" data-product="Secure Endpoint">Secure Endpoint</button>
+    </nav>
+    <div class="toolbar">
+      <div class="field">
+        <label for="f-theater">Theater</label>
+        <select id="f-theater"><option>All</option></select>
+      </div>
+      <div class="field">
+        <label for="f-segment">Segment</label>
+        <select id="f-segment"><option>All</option></select>
+      </div>
+      <div class="field">
+        <label for="f-status">Status</label>
+        <select id="f-status"><option>All</option></select>
+      </div>
+      <div class="field">
+        <label for="f-aging">Aging</label>
+        <select id="f-aging">
+          <option>All</option>
+          <option>Expired</option>
+          <option>0–30d</option>
+          <option>31–60d</option>
+          <option>61–90d</option>
+          <option>91–180d</option>
+          <option>180d+</option>
+        </select>
+      </div>
+      <div class="field" style="min-width: 200px; flex: 1">
+        <label for="f-search">Customer / sub / owner</label>
+        <input id="f-search" type="search" placeholder="Filter the book" />
+      </div>
+      <div class="field">
+        <label for="f-csv">Load Foundry / CCW CSV</label>
+        <input id="f-csv" type="file" accept=".csv,text/csv" />
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <button type="button" id="btn-export">Export filtered CSV</button>
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <button type="button" class="secondary" id="btn-reset">Reset filters</button>
+      </div>
+      <span class="csv-name" id="csv-name"></span>
+    </div>
+    <main class="page">
+      <section class="kpis" aria-label="Book summary">
+        <article class="kpi">
+          <div class="label">Eligible renewal ACV</div>
+          <div class="value" id="k-total">—</div>
+          <div class="hint" id="k-total-n"></div>
+        </article>
+        <article class="kpi ok">
+          <div class="label">Renewed + committed</div>
+          <div class="value" id="k-won">—</div>
+          <div class="hint" id="k-won-h"></div>
+        </article>
+        <article class="kpi">
+          <div class="label">Open pipeline ACV</div>
+          <div class="value" id="k-open">—</div>
+          <div class="hint" id="k-open-h"></div>
+        </article>
+        <article class="kpi risk">
+          <div class="label">At risk ACV</div>
+          <div class="value" id="k-risk">—</div>
+          <div class="hint" id="k-risk-h"></div>
+        </article>
+        <article class="kpi risk">
+          <div class="label">Lapsed ACV</div>
+          <div class="value" id="k-lapsed">—</div>
+          <div class="hint">coverage already ended</div>
+        </article>
+        <article class="kpi">
+          <div class="label">Closed renewal rate</div>
+          <div class="value" id="k-rate">—</div>
+          <div class="hint" id="k-rate-h"></div>
+        </article>
+      </section>
+      <section class="grid">
+        <article class="panel">
+          <h2>ACV by expire quarter and status</h2>
+          <div class="body">
+            <div class="legend" id="legend-q"></div>
+            <div id="chart-quarter"></div>
+          </div>
+        </article>
+        <article class="panel">
+          <h2>ACV by theater</h2>
+          <div class="body">
+            <div class="legend" id="legend-t"></div>
+            <div id="chart-theater"></div>
+          </div>
+        </article>
+        <article class="panel">
+          <h2>Status mix</h2>
+          <div class="body">
+            <div id="chart-status"></div>
+          </div>
+        </article>
+      </section>
+      <article class="panel">
+        <h2>Renewal status by product</h2>
+        <div class="table-wrap">
+          <table class="summary">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th class="num">Subs</th>
+                <th class="num">Eligible ACV</th>
+                <th class="num">Renewed + committed</th>
+                <th class="num">Open pipeline</th>
+                <th class="num">At risk</th>
+                <th class="num">Lapsed</th>
+                <th class="num">Closed rate</th>
+                <th>Status mix</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-products"></tbody>
+          </table>
+        </div>
+      </article>
+      <article class="panel">
+        <h2>
+          Renewal book
+          <span class="footnote" id="table-count" style="font-weight: 400; margin-left: 8px"></span>
+        </h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th data-key="customer">Customer</th>
+                <th data-key="product">Product</th>
+                <th data-key="skuFamily">SKU family</th>
+                <th data-key="id">Subscription</th>
+                <th data-key="endDate">End date</th>
+                <th class="num" data-key="daysToExpire">Days</th>
+                <th class="num" data-key="acv">ACV</th>
+                <th class="num" data-key="seats">Seats</th>
+                <th data-key="status">Status</th>
+                <th data-key="autoRenew">Auto-renew</th>
+                <th data-key="theater">Theater</th>
+                <th data-key="area">Area</th>
+                <th data-key="segment">Segment</th>
+                <th data-key="owner">Owner</th>
+                <th data-key="quoteId">Quote</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </article>
+      <p class="footnote">
+        Status model matches a typical CCW / installed-base de-risk view: Renewed, Committed,
+        Quoted, In negotiation, Not started, At risk, Lapsed. Import columns: customer, product,
+        sku_family, subscription_id, end_date, acv, seats, status, auto_renew, theater, area,
+        segment, owner, quote_id. Product values: XDR, ETD, Secure Endpoint.
+      </p>
+    </main>
+    <script src="js/data.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

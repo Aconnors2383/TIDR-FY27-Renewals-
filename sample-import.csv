@@ -1,0 +1,7 @@
+customer,product,sku_family,subscription_id,end_date,acv,seats,status,auto_renew,theater,area,segment,owner,quote_id
+Northwind Health System,XDR,XDR-ADVANTAGE,SUB-2001,2026-12-15,412000,2500,In negotiation,No,AMER,US West,Enterprise,A. Patel,Q-45001
+Blue Harbor Bank,ETD,EMAIL-THREAT-DEF,SUB-2002,2026-11-30,188000,8000,Quoted,No,AMER,US East,Commercial,M. Chen,Q-45002
+Cedar & Pine Manufacturing,Secure Endpoint,SECURE-ENDPOINT-ADV,SUB-2003,2026-10-01,275000,8000,Lapsed,No,EMEA,DACH,Enterprise,J. Alvarez,
+Helios Energy Cooperative,XDR,XDR-ESSENTIALS,SUB-2004,2027-03-12,640000,4000,Not started,Yes,APJC,ANZ,Public Sector,S. Okonkwo,
+Lumen Civic University,ETD,CES-CLOUD-SUB,SUB-2005,2026-09-18,96000,3000,Renewed,Yes,EMEA,UKI,Public Sector,L. Bergstrom,
+Atlas Freight Lines,Secure Endpoint,AMP-BASE-SUB,SUB-2006,2026-12-01,154000,1500,At risk,No,AMER,LATAM,Commercial,R. Nakamura,
